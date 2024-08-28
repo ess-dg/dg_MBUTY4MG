@@ -581,6 +581,7 @@ if parameters.plotting.bareReadoutsCalculation is False:
     # eventsBTh = ab.events 
     
     events = ab.events 
+    eventsArray2 = events.concatenateEventsInArrayForDebug() 
     
     ####################    
     ### for debug, events in single array 
@@ -653,7 +654,7 @@ if parameters.plotting.bareReadoutsCalculation is False:
 
 if parameters.plotting.bareReadoutsCalculation is False:
     ### XY and XToF
-    plev = plo.plottingEvents(events,allAxis,parameters.plotting.coincidenceWS_ONOFF)
+    plev = plo.plottingEvents(events,allAxis,parameters.plotting.coincidenceWS_ONOFF,parameters)
     plev.plotXYToF(logScale = parameters.plotting.plotIMGlog, absUnits = parameters.plotting.plotABSunits, orientation = parameters.config.DETparameters.orientation)
     
     # ### ToF per cassette 

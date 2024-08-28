@@ -406,12 +406,13 @@ class checkEventsClass():
         
 class plottingEvents():
     
-    def __init__(self, events, allAxis, coincidenceWS_ONOFF):
+    def __init__(self, events, allAxis, coincidenceWS_ONOFF, parameters):
         
         # self.Ncass = Ncass
         
         # self.events  = events
         self.allAxis = allAxis
+        self.parameters = parameters
         
         # self.selectCoinc = events.positionS >= -2
         
@@ -455,6 +456,9 @@ class plottingEvents():
                     # #fig.add_axes([0,0,1,1]) #if you want to position absolute coordinate
                     pos1  = ax1.imshow(h2D,aspect='auto',norm=normColors,interpolation='none',extent=[self.allAxis.axWires.start,self.allAxis.axWires.stop,self.allAxis.axStrips.stop,self.allAxis.axStrips.start], origin='upper',cmap='viridis')
                     
+                    for k in range(1,self.parameters.config.DETparameters.numOfCassettes):
+                        ax1.plot([k*self.parameters.config.DETparameters.numOfWires, k*self.parameters.config.DETparameters.numOfWires], [0, self.parameters.config.DETparameters.numOfStrips-1], color='r', linewidth = 1)
+                    
                     #  temporary fix because LogNorm crashes tihe imShow when Log 
                     try:
                         fig2D.colorbar(pos1, ax=ax1, orientation="horizontal",fraction=0.07,anchor=(1.0,0.0))
@@ -469,28 +473,28 @@ class plottingEvents():
                     fig2D.suptitle('DET image')
                     
                     
-                elif orientation == 'horizontal':   
+                # elif orientation == 'horizontal':   
                            
-                    fig2D, (ax1, ax2) = plt.subplots(num=101,figsize=(12,6), nrows=1, ncols=2) 
+                #     fig2D, (ax1, ax2) = plt.subplots(num=101,figsize=(12,6), nrows=1, ncols=2) 
                     
                     
                 
-                    pos1  = ax1.imshow(np.rot90(h2D,1),aspect='auto',norm=normColors,interpolation='none',extent=[self.allAxis.axStrips.start,self.allAxis.axStrips.stop,self.allAxis.axWires.start,self.allAxis.axWires.stop], origin='upper',cmap='viridis')
+                #     pos1  = ax1.imshow(np.rot90(h2D,1),aspect='auto',norm=normColors,interpolation='none',extent=[self.allAxis.axStrips.start,self.allAxis.axStrips.stop,self.allAxis.axWires.start,self.allAxis.axWires.stop], origin='upper',cmap='viridis')
                     
-                    #  temporary fix because LogNorm crashes tihe imShow when Log 
-                    try:
-                        fig2D.colorbar(pos1, ax=ax1, orientation="horizontal",fraction=0.07,anchor=(1.0,0.0))
-                    except:
-                        print('\n --> \033[1;33mWARNING: Cannot plot XY in Log scale, changed to linear\033[1;37m',end='')
+                #     #  temporary fix because LogNorm crashes tihe imShow when Log 
+                #     try:
+                #         fig2D.colorbar(pos1, ax=ax1, orientation="horizontal",fraction=0.07,anchor=(1.0,0.0))
+                #     except:
+                #         print('\n --> \033[1;33mWARNING: Cannot plot XY in Log scale, changed to linear\033[1;37m',end='')
                         
-                    # # add red lines to plot IMG
-                    # for k in np.arange(0,445,32):
-                    #     ax1.plot([0,63],[k,k],'r',linewidth=1)
+                #     # # add red lines to plot IMG
+                #     # for k in np.arange(0,445,32):
+                #     #     ax1.plot([0,63],[k,k],'r',linewidth=1)
                         
                         
-                    ax1.set_ylabel('Wire ch.')
-                    ax1.set_xlabel('Strip ch.')
-                    fig2D.suptitle('DET image')
+                #     ax1.set_ylabel('Wire ch.')
+                #     ax1.set_xlabel('Strip ch.')
+                #     fig2D.suptitle('DET image')
                     
     
                 

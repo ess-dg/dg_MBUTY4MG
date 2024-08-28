@@ -99,8 +99,9 @@ class calculateAbsUnits():
          for k, cass in enumerate(self.parameters.config.DETparameters.cassInConfig):     
               index = k
               selection = self.events.Cassette == cass 
-              self.events.positionW[selection] = self.events.positionW[selection] - index*self.parameters.config.DETparameters.numOfWires
-
+              # self.events.positionW[selection] = self.events.positionW[selection] - index*self.parameters.config.DETparameters.numOfWires
+              
+              tempPosW  = self.events.positionW[selection] - index*self.parameters.config.DETparameters.numOfWires
         ########################
 
          numOfWiresPerRow = self.parameters.config.DETparameters.wiresPerRow
@@ -112,9 +113,9 @@ class calculateAbsUnits():
          # cosi = np.cos(np.deg2rad(angularOffset)) 
   
          #   mod 20 to bring it back from 0 to 19 on each row 
-         wireChforZ = np.mod(self.events.positionW,numOfWiresPerRow)
+         wireChforZ = np.mod(tempPosW,numOfWiresPerRow)
          #  this identifies the row in each column 
-         wireChforX = np.floor_divide(self.events.positionW,numOfWiresPerRow)
+         wireChforX = np.floor_divide(tempPosW,numOfWiresPerRow)
          
 
          #mm per row of 20wires along X  this loop is not needed 

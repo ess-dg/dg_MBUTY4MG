@@ -3,13 +3,15 @@
 	
 	"operationMode" : "normal",
 
-	"cassettes" : 2,
+	"cassettes" : 4,
 	
 	"orientation" : "vertical",
 
 	"Cassette2ElectronicsConfig" : [
 		{"ID" : 0, "Ring" : 0, "Fen" : 0, "HybridW" : 1, "HybridS" : 0},
-		{"ID" : 1, "Ring" : 0, "Fen" : 0, "HybridW" : 3, "HybridS" : 2}
+		{"ID" : 1, "Ring" : 0, "Fen" : 0, "HybridW" : 3, "HybridS" : 2},
+		{"ID" : 2, "Ring" : 1, "Fen" : 0, "HybridW" : 3, "HybridS" : 2},
+		{"ID" : 3, "Ring" : 1, "Fen" : 0, "HybridW" : 3, "HybridS" : 2}
 	],
 
 	"wires"  : 120,

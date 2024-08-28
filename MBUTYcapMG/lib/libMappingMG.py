@@ -725,12 +725,12 @@ class mapMonitor():
 
 if __name__ == '__main__':
 
-   filePath  = '/Users/francescopiscitelli/Documents/PYTHON/MBUTYcap_MGdevel/config/'+"MG.json"
+   filePath  = '/Users/francescopiscitelli/Documents/PYTHON/MBUTYcapMG/config/'+"MG.json"
    # filePathD = './'+"VMM3a_Freia.pcapng"
 
    config = read_json_config(filePath)
    
-   filePath = '/Users/francescopiscitelli/Documents/PYTHON/MBUTYcap_MGdevel/data/'
+   filePath = '/Users/francescopiscitelli/Documents/PYTHON/MBUTYcapMG/data/'
    file = 'MG_2col_2clusters.pcapng'
      # file = 'sampleData_ClusteredMode.pcapng'
      
