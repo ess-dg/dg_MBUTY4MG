@@ -1,0 +1,31 @@
+{
+	"Detector": "MG",
+	
+	"operationMode" : "normal",
+
+	"cassettes" : 2,
+	
+	"orientation" : "vertical",
+
+	"Cassette2ElectronicsConfig" : [
+		{"ID" : 0, "Ring" : 0, "Fen" : 0, "HybridW" : 1, "HybridS" : 0},
+		{"ID" : 1, "Ring" : 0, "Fen" : 0, "HybridW" : 3, "HybridS" : 2}
+	],
+
+	"wires"  : 120,
+	"strips" : 88,
+
+	"wirePitchX_mm" : 22,
+	"wirePitchZ_mm" : 10,
+	"stripPitchY_mm" : 25,
+	
+	"wiresPerRow" : 20,
+
+	"angularOffset_deg" : 10,
+	"linearOffset1stWires_mm" : 80,
+
+	"Monitor" : [
+		{"ID" : 99,  "TTLtype" : "True", "Ring" : 11, "Fen" : 0, "Hybrid" : 0, "ASIC" : 0, "Channel" : 1}
+	] 
+
+}

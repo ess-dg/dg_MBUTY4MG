@@ -1,0 +1,10 @@
+Install pacing package in anaconda 
+Python >=3.9 
+pip install python-pcapng
+
+
+For Kafka streamer is needed:
+
+pip install flatbuffers
+pip install configargparse
+pip install confluent_kafka
