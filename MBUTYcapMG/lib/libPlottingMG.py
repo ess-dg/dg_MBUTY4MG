@@ -9,7 +9,7 @@ Created on Wed Aug 25 10:46:16 2021
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
-# import time
+import time
 
 # from lib import libSampleData as sdat
 # from lib import libMapping as maps
@@ -411,7 +411,7 @@ class plottingEvents():
         # self.Ncass = Ncass
         
         # self.events  = events
-        self.allAxis = allAxis
+        self.allAxis    = allAxis
         self.parameters = parameters
         
         # self.selectCoinc = events.positionS >= -2
@@ -452,24 +452,24 @@ class plottingEvents():
                 
                 if orientation == 'vertical':
                 
-                    fig2D, (ax1, ax2) = plt.subplots(num=101,figsize=(6,12), nrows=2, ncols=1)    
+                    fig2D, ax22 = plt.subplots(num=101,figsize=(9,9), nrows=2, ncols=2)    
                     # #fig.add_axes([0,0,1,1]) #if you want to position absolute coordinate
-                    pos1  = ax1.imshow(h2D,aspect='auto',norm=normColors,interpolation='none',extent=[self.allAxis.axWires.start,self.allAxis.axWires.stop,self.allAxis.axStrips.stop,self.allAxis.axStrips.start], origin='upper',cmap='viridis')
+                    pos1  = ax22[0][0].imshow(h2D,aspect='auto',norm=normColors,interpolation='none',extent=[self.allAxis.axWires.start,self.allAxis.axWires.stop,self.allAxis.axStrips.stop,self.allAxis.axStrips.start], origin='upper',cmap='viridis')
                     
                     for k in range(1,self.parameters.config.DETparameters.numOfCassettes):
-                        ax1.plot([k*self.parameters.config.DETparameters.numOfWires, k*self.parameters.config.DETparameters.numOfWires], [0, self.parameters.config.DETparameters.numOfStrips-1], color='r', linewidth = 1)
+                        ax22[0][0].plot([k*self.parameters.config.DETparameters.numOfWires, k*self.parameters.config.DETparameters.numOfWires], [0, self.parameters.config.DETparameters.numOfStrips-1], color='r', linewidth = 1)
                     
                     #  temporary fix because LogNorm crashes tihe imShow when Log 
                     try:
-                        fig2D.colorbar(pos1, ax=ax1, orientation="horizontal",fraction=0.07,anchor=(1.0,0.0))
+                        fig2D.colorbar(pos1, ax=ax22[0][0], orientation="horizontal",fraction=0.07,anchor=(1.0,0.0))
                     except:
                         print('\n --> \033[1;33mWARNING: Cannot plot XY in Log scale, changed to linear\033[1;37m',end='')
                         
                     # cbar1 =fig2D.colorbar(pos1,ax=ax1)
                     # cbar2.minorticks_on()
                     # ax1.set_aspect('tight')
-                    ax1.set_xlabel('Wire ch.')
-                    ax1.set_ylabel('Strip ch.')
+                    ax22[0][0].set_xlabel('Wire ch.')
+                    ax22[0][0].set_ylabel('Grid ch.')
                     fig2D.suptitle('DET image')
                     
                     
@@ -498,14 +498,64 @@ class plottingEvents():
                     
     
                 
-                pos2 = ax2.step(self.allAxis.axWires.axis,hProjAll,'r',where='mid',label='1D')
-                ax2.step(self.allAxis.axWires.axis,hProj2D,'b',where='mid',label='2D')
+                pos2 = ax22[1][0].step(self.allAxis.axWires.axis,hProjAll,'r',where='mid',label='1D')
+                ax22[1][0].step(self.allAxis.axWires.axis,hProj2D,'b',where='mid',label='2D')
                 if logScale is True:
-                   ax2.set_yscale('log')
-                ax2.set_xlabel('Wire ch.')
-                ax2.set_ylabel('counts')
-                ax2.set_xlim(self.allAxis.axWires.start,self.allAxis.axWires.stop)
-                legend = ax2.legend(loc='upper right', shadow=False, fontsize='large')
+                   ax22[1][0].set_yscale('log')
+                ax22[1][0].set_xlabel('Wire ch.')
+                ax22[1][0].set_ylabel('counts')
+                ax22[1][0].set_xlim(self.allAxis.axWires.start,self.allAxis.axWires.stop)
+                legend = ax22[1][0].legend(loc='upper right', shadow=False, fontsize='large')
+                
+                
+                # projected over window in depth image 2D
+                
+                wireChforX = np.floor_divide(self.events.positionW[self.selc],self.parameters.config.DETparameters.wiresPerRow)
+                
+                if np.mod(self.parameters.config.DETparameters.numOfWires,self.parameters.config.DETparameters.wiresPerRow) != 0 :
+                    print('Warning: num of Wires / Wires per row is not integer!')
+                    time.sleep(2)
+                
+                rowsPerCol = int(self.parameters.config.DETparameters.numOfWires/self.parameters.config.DETparameters.wiresPerRow)
+                
+                steps   = self.parameters.config.DETparameters.numOfCassettes*rowsPerCol
+                stop    = steps - 1
+
+                rowsAxis = np.linspace(0,stop,steps)
+                
+                h2DprojWin, _, _ = hh.histog().histXYZ(rowsAxis, wireChforX, self.allAxis.axStrips.axis, self.events.positionS[self.selc], self.allAxis.axToF.axis, self.events.ToF[self.selc]/1e9)
+        
+        
+                pos10  = ax22[0][1].imshow(h2DprojWin,aspect='auto',norm=normColors,interpolation='none',extent=[0,stop,self.allAxis.axStrips.stop,self.allAxis.axStrips.start], origin='upper',cmap='viridis')
+                
+                
+                try:
+                    fig2D.colorbar(pos10, ax=ax22[0][1], orientation="horizontal",fraction=0.07,anchor=(1.0,0.0))
+                except:
+                    print('\n --> \033[1;33mWARNING: Cannot plot XY in Log scale, changed to linear\033[1;37m',end='')
+    
+                ax22[0][1].set_xlabel('Row no.')
+                ax22[0][1].set_ylabel('Grid ch.')
+                
+                
+                for k in range(1,self.parameters.config.DETparameters.numOfCassettes):
+                    ax22[0][1].plot([k*rowsPerCol, k*rowsPerCol], [0, self.parameters.config.DETparameters.numOfStrips-1], color='r', linewidth = 1)
+                    
+                    
+                    
+                hProjAll2 = hh.histog().hist1D(rowsAxis, wireChforX)
+                    
+                hProj2D2  = np.sum(h2DprojWin,axis=0)
+                
+                
+                pos2 = ax22[1][1].step(rowsAxis,hProjAll2,'r',where='mid',label='1D')
+                ax22[1][1].step(rowsAxis,hProj2D2,'b',where='mid',label='2D')
+                if logScale is True:
+                   ax22[1][1].set_yscale('log')
+                ax22[1][1].set_xlabel('Row no.')
+                ax22[1][1].set_ylabel('counts')
+                ax22[1][1].set_xlim(0,stop)
+                legend = ax22[1][1].legend(loc='upper right', shadow=False, fontsize='large')
     
                 ########
                 # 2D image of detector ToF vs Wires 
@@ -554,26 +604,26 @@ class plottingEvents():
                     # cbar2.minorticks_on()
                     # ax1.set_aspect('tight')
                     ax1.set_xlabel('Wire coord. (mm)')
-                    ax1.set_ylabel('Strip (mm)')
+                    ax1.set_ylabel('Grid (mm)')
                     fig2D.suptitle('DET image')
      
                    
-                elif orientation == 'horizontal':  
+                # elif orientation == 'horizontal':  
                     
-                    fig2D, (ax1, ax2) = plt.subplots(num=101,figsize=(6,12), nrows=2, ncols=1)    
-                    # #fig.add_axes([0,0,1,1]) #if you want to position absolute coordinate
-                    pos1  = ax1.imshow(np.rot90(h2D,1),aspect='auto',norm=normColors,interpolation='none',extent=[self.allAxis.axStrips_mm.start,self.allAxis.axStrips_mm.stop,self.allAxis.axWires_mm.start,self.allAxis.axWires_mm.stop], origin='upper',cmap='viridis')
+                #     fig2D, (ax1, ax2) = plt.subplots(num=101,figsize=(6,12), nrows=2, ncols=1)    
+                #     # #fig.add_axes([0,0,1,1]) #if you want to position absolute coordinate
+                #     pos1  = ax1.imshow(np.rot90(h2D,1),aspect='auto',norm=normColors,interpolation='none',extent=[self.allAxis.axStrips_mm.start,self.allAxis.axStrips_mm.stop,self.allAxis.axWires_mm.start,self.allAxis.axWires_mm.stop], origin='upper',cmap='viridis')
                     
-                    #  temporary fix because LogNorm crashes tihe imShow when Log 
-                    try:
-                        fig2D.colorbar(pos1, ax=ax1, orientation="horizontal",fraction=0.07,anchor=(1.0,0.0))
-                    except:
-                        print('\n --> \033[1;33mWARNING: Cannot plot XY in Log scale, changed to linear\033[1;37m',end='')
+                #     #  temporary fix because LogNorm crashes tihe imShow when Log 
+                #     try:
+                #         fig2D.colorbar(pos1, ax=ax1, orientation="horizontal",fraction=0.07,anchor=(1.0,0.0))
+                #     except:
+                #         print('\n --> \033[1;33mWARNING: Cannot plot XY in Log scale, changed to linear\033[1;37m',end='')
                     
                     
-                    ax1.set_ylabel('Wire coord. (mm)')
-                    ax1.set_xlabel('Strip (mm)')
-                    fig2D.suptitle('DET image')
+                #     ax1.set_ylabel('Wire coord. (mm)')
+                #     ax1.set_xlabel('Strip (mm)')
+                #     fig2D.suptitle('DET image')
         
         
                 pos2 = ax2.step(self.allAxis.axWires_mm.axis,hProjAll,'r',where='mid',label='1D')
@@ -698,7 +748,7 @@ class plottingEvents():
                 pos1 = self.plotMult.axHandle[1][k].imshow(my2Dwcnorm[:self.extentplot,:self.extentplot],aspect='auto',norm=None,interpolation='none',extent=[xx[0]-0.5,xx[self.extentplot]-0.5,xx[0]-0.5,xx[self.extentplot]-0.5], origin='lower',cmap='jet')
                 self.plotMult.axHandle[1][k].set_xlabel('multiplicity wires')
                 if k == 0:
-                    self.plotMult.axHandle[1][k].set_ylabel('multiplicity strips')
+                    self.plotMult.axHandle[1][k].set_ylabel('multiplicity grids')
                     
                 plt.colorbar(pos1,ax=self.plotMult.axHandle[1][k])
        
@@ -737,7 +787,7 @@ class plottingEvents():
                     self.plotPHS.axHandle[0][k].set_title('cass ID '+str(cass))
                     if k == 0:
                         self.plotPHS.axHandle[0][k].set_ylabel('wires ch. no.')
-                        self.plotPHS.axHandle[1][k].set_ylabel('strips ch. no.')
+                        self.plotPHS.axHandle[1][k].set_ylabel('grid ch. no.')
                         self.plotPHS.axHandle[2][k].set_ylabel('wires coinc. ch. no.')
                
                        #global PHS
@@ -747,8 +797,8 @@ class plottingEvents():
            
                     # global PHS plot
                     self.plotPHS.axHandle[3][k].step(self.allAxis.axEnergy.axis,PHSGw,'r',where='mid',label='w')
-                    self.plotPHS.axHandle[3][k].step(self.allAxis.axEnergy.axis,PHSGs,'b',where='mid',label='s')
-                    self.plotPHS.axHandle[3][k].step(self.allAxis.axEnergy.axis,PHSGwc,'k',where='mid',label='w/s')
+                    self.plotPHS.axHandle[3][k].step(self.allAxis.axEnergy.axis,PHSGs,'b',where='mid',label='g')
+                    self.plotPHS.axHandle[3][k].step(self.allAxis.axEnergy.axis,PHSGwc,'k',where='mid',label='w/g')
                     self.plotPHS.axHandle[3][k].set_xlabel('pulse height (a.u.)')
                     self.plotPHS.axHandle[3][k].legend(loc='upper right', shadow=False, fontsize='large')
                     if k == 0:
@@ -762,7 +812,7 @@ class plottingEvents():
         
            self.plotPHScorr = preparePlotMatrix(602, 1, len(cassettes), figSize=(12,6))
            
-           self.plotPHScorr.figHandle.suptitle('Pulse Heigth Spectrum - Correlation W/S')
+           self.plotPHScorr.figHandle.suptitle('Pulse Heigth Spectrum - Correlation W/G')
         
            for k, cass in enumerate(cassettes):
    
@@ -776,7 +826,7 @@ class plottingEvents():
                 self.plotPHScorr.axHandle[0][k].set_title('cass ID '+str(cass))
                 self.plotPHScorr.axHandle[0][k].set_xlabel('pulse height wires (a.u.)')
                 if k == 0:
-                    self.plotPHScorr.axHandle[0][k].set_ylabel('pulse height strips (a.u.)')
+                    self.plotPHScorr.axHandle[0][k].set_ylabel('pulse height grids (a.u.)')
             
     def plotInstantaneousRate(self, cassettes):
         

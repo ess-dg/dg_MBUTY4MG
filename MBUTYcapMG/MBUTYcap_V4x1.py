@@ -127,6 +127,7 @@ parameters.fileManagement.filePath = parameters.fileManagement.destPath
 # relevant for acqMode =  off, pcap-sync and pcap-local
 
 parameters.fileManagement.filePath = currentPath+'data/'
+# parameters.fileManagement.filePath ='/home/mg/data/VMM-Utgard-test-2024/'
 
 # parameters.fileManagement.filePath = '/Users/francescopiscitelli/Documents/DOC/DATA/202311_PSI_AMOR_MBnewAMOR_VMM_neutrons/SamplesAndMasks/'
 
@@ -271,7 +272,7 @@ parameters.plotting.showStat = 'globalStat'
 
 ###############     
 ### raw plots
-parameters.plotting.plotRawReadouts         = True
+parameters.plotting.plotRawReadouts         = False
 parameters.plotting.plotReadoutsTimeStamps  = False
 parameters.plotting.plotRawHits             = False
 parameters.plotting.plotHitsTimeStamps      = False
@@ -316,7 +317,7 @@ parameters.plotting.hitogOutBounds = True
 ### PHS
 
 ### ON/OFF PHS per channel and global
-parameters.pulseHeigthSpect.plotPHS = False
+parameters.pulseHeigthSpect.plotPHS = True
 
 ### plot PHS in log scale 
 parameters.pulseHeigthSpect.plotPHSlog = False
