@@ -10,7 +10,7 @@ import numpy as np
 
 
 
-table = np.zeros((128,5))
+table = np.zeros((128,7))
 
 table[0:64,0] = np.arange(0,64)
 
@@ -29,3 +29,9 @@ table[:,3] = np.mod(table[:,2],numWiresRow)
 
 
 table[:,4] = (numWiresRow-1) - table[:,3]
+
+
+table[:,5] = np.floor_divide(table[:,2],numWiresRow)
+
+
+table[:,6] = table[:,4] + table[:,5]*numWiresRow
