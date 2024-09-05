@@ -455,7 +455,9 @@ class mapDetector():
         # WIRES
         selectionWires  =  np.logical_and(selectionCol , HyWLoc)
 
-        tempW    = (self.readouts.Channel[selectionWires] + 64*self.readouts.ASIC[selectionWires]) 
+        tempW = (self.config.DETparameters.wiresPerRow-1) - np.mod( (63 - self.readouts.Channel[selectionWires] + 64*(1-self.readouts.ASIC[selectionWires])) , self.config.DETparameters.wiresPerRow )
+
+        # tempW    = (self.readouts.Channel[selectionWires] + 64*self.readouts.ASIC[selectionWires]) 
         # after mapping wires are 0 and strips 1 
         self.hits.WorS[selectionWires] = 0 
         temp1 = self.hits.WorS[selectionWires] 

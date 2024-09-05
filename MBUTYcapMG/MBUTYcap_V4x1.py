@@ -272,9 +272,9 @@ parameters.plotting.showStat = 'globalStat'
 
 ###############     
 ### raw plots
-parameters.plotting.plotRawReadouts         = False
+parameters.plotting.plotRawReadouts         = True
 parameters.plotting.plotReadoutsTimeStamps  = False
-parameters.plotting.plotRawHits             = False
+parameters.plotting.plotRawHits             = True
 parameters.plotting.plotHitsTimeStamps      = False
 parameters.plotting.plotHitsTimeStampsVSChannels = False
 parameters.plotting.plotChopperResets       = False
