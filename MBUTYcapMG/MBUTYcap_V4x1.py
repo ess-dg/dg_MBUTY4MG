@@ -34,7 +34,7 @@ from lib import libEventsSoftThresholds as thre
 from lib import libReducedFileH5 as saveH5
 from lib import libVMMcalibration as cal 
 
-from lib import libKafkaReader as kaf
+# from lib import libKafkaReader as kaf
 
 
 ###############################################################################
@@ -64,7 +64,8 @@ parameters  = para.parameters(currentPath)
 
 configFilePath  = currentPath+'config/'
 
-configFileName  = "MG.json"
+# configFileName  = "MG.json"
+configFileName  = "MGEMMA.json"
 
 ###############################################################################
 ###############################################################################
@@ -96,7 +97,7 @@ parameters.acqMode = 'off'
 
 # relevant for acqMode =  pcap-local, pcap-local-overwrite and kafka 
 
-parameters.dumpSettings.interface     = 'ens2'
+parameters.dumpSettings.interface     = 'enp5s0'
 
 parameters.dumpSettings.typeOfCapture = 'packets'
 parameters.dumpSettings.quantity      =  100      #packets

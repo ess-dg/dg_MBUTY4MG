@@ -58,15 +58,19 @@ if __name__ == '__main__':
     # parser.add_argument("-e", "--destination", help = "path where to save recorded pcapng files", type = str, default = "/home/essdaq/pcaps/")
 
     # # # ARGS for ESSDAQ EFU
-    parser.add_argument("-i", "--interface", help = "interface from which capture packets", type = str, default = "ens2")
-    parser.add_argument("-t", "--tshark", help = "path where tshark is located", type = str, default = "/usr/sbin/")
-    parser.add_argument("-e", "--destination", help = "path where to save recorded pcapng files", type = str, default = "/home/essdaq/pcaps/")
+    # parser.add_argument("-i", "--interface", help = "interface from which capture packets", type = str, default = "ens2")
+    # parser.add_argument("-t", "--tshark", help = "path where tshark is located", type = str, default = "/usr/sbin/")
+    # parser.add_argument("-e", "--destination", help = "path where to save recorded pcapng files", type = str, default = "/home/essdaq/pcaps/")
 
     # #  ARGS for EFU  JADAQ
     # parser.add_argument("-i", "--interface", help = "interface from which capture packets", type = str, default = "em2")
     # parser.add_argument("-t", "--tshark", help = "path where tshark is located", type = str, default = "/usr/sbin/")
     # parser.add_argument("-e", "--destination", help = "path where to save recorded pcapng files", type = str, default = "/home/efu/data/pcaps/")
 
+    # # # ARGS for MG
+    parser.add_argument("-i", "--interface", help = "interface from which capture packets", type = str, default = "enp5s0")
+    parser.add_argument("-t", "--tshark", help = "path where tshark is located", type = str, default = "/usr/sbin/")
+    parser.add_argument("-e", "--destination", help = "path where to save recorded pcapng files", type = str, default = "/home/mg/data/VMM-Utgard-test-2024/")
 
     # common  fields
     parser.add_argument("-f", "--file", help = "pcapng filename", type = str, default = "temp")
