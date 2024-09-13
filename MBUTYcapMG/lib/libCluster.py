@@ -779,12 +779,23 @@ class hitsMON2events():
          
          self.events.importDurations(self.hits)
          
-         self.events.PHW  = self.hits.ADC
-         self.events.PHS  = self.hits.ADC
-         self.events.WorS = 99
+         lengg = np.shape(self.hits.ADC)[0]
+         
+         self.events.PHW    = self.hits.ADC
+         self.events.PHS    = self.hits.ADC
          self.events.PrevPT = self.hits.PrevPT
          self.events.PulseT = self.hits.PulseT
          self.events.timeStamp = self.hits.timeStamp
+         
+         self.events.WorS      = 99*np.ones((lengg))
+         self.events.Cassette  = 99*np.ones((lengg))
+         self.events.positionW = 99*np.ones((lengg))
+         self.events.positionS = 99*np.ones((lengg))
+         self.events.multW     = 99*np.ones((lengg))
+         self.events.multS     = 99*np.ones((lengg))
+
+         
+
          
          
     # def hitsToEvents(self):

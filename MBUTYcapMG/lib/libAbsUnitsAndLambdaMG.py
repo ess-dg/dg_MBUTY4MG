@@ -218,6 +218,18 @@ class calculateAbsUnits():
          # tempwavelength[np.logical_and(zeroWave,infWave)] = np.nan
          
          self.events.wavelength = np.round(wavel, decimals=2)
+         
+     def calculateWavelengthMON(self):
+         
+         #  from ns to s, from int ot float ! 
+         ToF_s = self.events.ToF/1e9
+         
+         tcl = Tof2LambdaConverter()
+         
+         wavel  = tcl.ToF2lambda(self.parameters.MONitor.MONDistance*1e-3, ToF_s) #input m and s, output in A
+         
+         self.events.wavelength = np.round(wavel, decimals=2)
+         
            
      def calculateToFandWavelength(self,removeInvalidToFs = False):
             

@@ -144,6 +144,8 @@ parameters.fileManagement.fileName = ['MG_2col_1cluster.pcapng']
 
 parameters.fileManagement.fileName = ['MG_2col_2clusters.pcapng']
 
+parameters.fileManagement.fileName = ['MGdata.pcapng']
+
 
 # parameters.fileManagement.fileSerials = np.arange(18,28,1)
 
@@ -220,7 +222,7 @@ if parameters.dataReduction.softThresholdType == 'userDefined':
 parameters.wavelength.distance = 8000
 
 ##ON/OFF
-parameters.wavelength.calculateLambda = False
+parameters.wavelength.calculateLambda = True
 
 ### ON/OFF plot X vs Lambda 2D plot
 parameters.wavelength.plotXLambda     = False
@@ -246,16 +248,16 @@ parameters.wavelength.chopperPickUpDelay =  13.5/(2.*180.) * parameters.waveleng
 #################################
 
 ### ON/OFF
-parameters.MONitor.MONOnOff = False   
+parameters.MONitor.MONOnOff = True   
 
 ### threshold on MON, th is OFF if 0, any other value is ON
 parameters.MONitor.MONThreshold = 0   
 
 ### ON/OFF plotting (MON ToF and Pulse Height) 
-parameters.MONitor.plotMONtofPHS = False  
+parameters.MONitor.plotMONtofPHS = True  
 
 ### in mm, distance of MON from chopper if plotMONtofPH == 1 (needed for lambda calculation if ToF)
-parameters.MONitor.MONDistance  = 0   
+parameters.MONitor.MONDistance  = 10000   
 
 ###############################################################################
 ### PLOTTING PARAMETERS:
@@ -496,10 +498,9 @@ if parameters.plotting.bareReadoutsCalculation is False:
             
             print('\033[1;32m\t MON events: {}\033[1;37m'.format(len(eventsMON.timeStamp)))
             
-            
-            # CALCULATION OF LAMBDA ON MON NOT YET IMPLEMENTED
-
-
+            if parameters.wavelength.calculateLambda is True:
+                
+                abMON.calculateWavelengthMON()
 
     
     ###############################################################################
@@ -690,6 +691,10 @@ if parameters.plotting.bareReadoutsCalculation is False:
         
         plMON = plo.plottingMON(eventsMON,allAxis)
         plMON.plot_ToF_PHS_MON()
+        
+        if parameters.wavelength.calculateLambda is True:
+            plMON.plotLambda_MON()
+            
 
 ###############################################################################
 ###############################################################################

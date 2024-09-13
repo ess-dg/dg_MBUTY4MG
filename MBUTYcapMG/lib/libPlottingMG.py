@@ -936,10 +936,19 @@ class plottingMON():
         ax2.set_title('PHS')
     
     
-         
     def plotLambda_MON(self):
+        
+         print('CIUDSPDASBFWIFBCWXF')
             
-         print('not implemented yet!')
+         histLM  = hh.histog().hist1D(self.allAxis.axLambda.axis,self.eventsMON.wavelength) 
+         
+         figMONLAM, ax1 = plt.subplots(num=9998,figsize=(6,6), nrows=1, ncols=1) 
+         figMONLAM.suptitle('MONITOR')
+         
+         ax1.step(self.allAxis.axLambda.axis,histLM,'k',where='mid',label='MON')
+         ax1.set_xlabel('wavelength (A)')
+         ax1.set_ylabel('counts')
+         ax1.set_title('WAVELENGTH')
             
 ###############################################################################
 ###############################################################################
