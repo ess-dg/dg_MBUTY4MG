@@ -678,7 +678,7 @@ class clusterHits():
              checkCassIDs.checkIfRepeatedIDs(cassettesIDs)
              
              self.rejCounterAll = np.zeros((5),dtype='int64')
-
+             
              for cc in cassettesIDs:
                  
                  self.clusterize1cassette(cc, timeWindow)
@@ -692,7 +692,9 @@ class clusterHits():
                  self.rejCounterAll += self.rejCounter
                  
                  
+                 
              del self.events1Cass   
+             
              
              if self.showStat == 'globalStat':
                  self.someStat(self.events,self.rejCounterAll)
@@ -787,12 +789,13 @@ class hitsMON2events():
          self.events.PulseT = self.hits.PulseT
          self.events.timeStamp = self.hits.timeStamp
          
-         self.events.WorS      = 99*np.ones((lengg))
-         self.events.Cassette  = 99*np.ones((lengg))
-         self.events.positionW = 99*np.ones((lengg))
-         self.events.positionS = 99*np.ones((lengg))
-         self.events.multW     = 99*np.ones((lengg))
-         self.events.multS     = 99*np.ones((lengg))
+         self.events.WorS      = 99*np.ones((lengg),dtype=int)
+         self.events.Cassette  = 99*np.ones((lengg),dtype=int)
+         self.events.positionW = 99*np.ones((lengg),dtype=int)
+         self.events.positionS = 99*np.ones((lengg),dtype=int)
+         self.events.multW     = 99*np.ones((lengg),dtype=int)
+         self.events.multS     = 99*np.ones((lengg),dtype=int)
+         self.events.Nevents   = lengg*np.ones((1),dtype=int)
 
          
 

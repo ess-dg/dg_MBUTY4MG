@@ -26,12 +26,11 @@ from lib import libParameters as para
 class saveReducedDataToHDF():
     def __init__(self, parameters, saveReducedPath='./', fileName='temp'):
         
-        self.par = parameters
+        self.parameters       = parameters
         
-        self.nameMainFolder   = self.par.fileManagement.reducedNameMainFolder
-
-        self.compressionHDFT  = self.par.fileManagement.reducedCompressionHDFT
-        self.compressionHDFL  = self.par.fileManagement.reducedCompressionHDFL
+        self.nameMainFolder   = self.parameters.fileManagement.reducedNameMainFolder
+        self.compressionHDFT  = self.parameters.fileManagement.reducedCompressionHDFT
+        self.compressionHDFL  = self.parameters.fileManagement.reducedCompressionHDFL
         
         ###########################
         
@@ -48,7 +47,9 @@ class saveReducedDataToHDF():
         self.fid    = h5py.File(self.outfile, "w")
     
         # create groups in h5 file  
-        self.gparam = self.fid.create_group(self.nameMainFolder+'/parameters')
+        # NOTE paramenters doe snot work dict , for now skipped will be added at a later devel 
+        # self.gparam = self.fid.create_group(self.nameMainFolder+'/parameters')
+        
         self.gdet   = self.fid.create_group(self.nameMainFolder+'/detector')
         self.gmon   = self.fid.create_group(self.nameMainFolder+'/monitor')
         
@@ -56,37 +57,38 @@ class saveReducedDataToHDF():
         # self.grun   = self.fid.create_group(self.nameMainFolder+'/run')
         
         self.gdet_data = self.gdet.create_group('events')
-        self.gmon_data = self.gmon.create_group('hits')
+        self.gmon_data = self.gmon.create_group('events')
         
-        padic =  self.par.__dict__
-        for key in  padic.keys():
+        # NOTE paramenters doe snot work dict , for now skipped will be added at a later devel 
+        # padic =  self.parameters.__dict__
+        # for key in  padic.keys():
     
-             if key != 'config':
+        #      if key != 'config':
                  
-                 gparam_subg = self.gparam.create_group(key)
+        #          gparam_subg = self.gparam.create_group(key)
              
-                 temp_dic = padic[key].__dict__
+        #          temp_dic = padic[key].__dict__
      
-                 for key2, value in zip(temp_dic.keys(),temp_dic.values()) :
+        #          for key2, value in zip(temp_dic.keys(),temp_dic.values()) :
            
-                        # print(key2, value, type(value))
+        #                 # print(key2, value, type(value))
                         
-                        if isinstance(value, (bool, float, int)):
-                            gparam_subg.create_dataset(key2, data = [value], compression=self.compressionHDFT, compression_opts=self.compressionHDFL)
-                        elif isinstance(value, (str)):
-                            gparam_subg.attrs.create(key2, value)
-                        elif isinstance(value, (list, np.ndarray)):
-                            try:
-                                gparam_subg.create_dataset(key2, data = value, compression=self.compressionHDFT, compression_opts=self.compressionHDFL)
-                            except:
+        #                 if isinstance(value, (bool, float, int)):
+        #                     gparam_subg.create_dataset(key2, data = [value], compression=self.compressionHDFT, compression_opts=self.compressionHDFL)
+        #                 elif isinstance(value, (str)):
+        #                     gparam_subg.attrs.create(key2, value)
+        #                 elif isinstance(value, (list, np.ndarray)):
+        #                     try:
+        #                         gparam_subg.create_dataset(key2, data = value, compression=self.compressionHDFT, compression_opts=self.compressionHDFL)
+        #                     except:
                                 
-                                # val = value[0]
-                                # print(val)
-                                gparam_subg.attrs.create(key2,value)
+        #                         # val = value[0]
+        #                         # print(val)
+        #                         gparam_subg.attrs.create(key2,value)
                             
-                        else:
-                            print('excluded dataset: ->  '+str(key2)+' -> '+str(type(value)))
-                            # a=1
+        #                 else:
+        #                     print('excluded dataset: ->  '+str(key2)+' -> '+str(type(value)))
+        #                     # a=1
                 
          
         # 
@@ -129,9 +131,7 @@ class saveReducedDataToHDF():
     
         
         self.gdet.attrs.create('units: time in ns (int), position in channel number or mm (phys. unit), lambda in Angstrom, Pulse Heigth in a.u. ADC',1)
-    
         
-        # self.__del__()  
          
     def __del__(self):
         try:
@@ -139,21 +139,21 @@ class saveReducedDataToHDF():
         except:
             pass
  
-    def save(self, events, hitsMON=None):
+    def save(self, events, eventsMON=None):
         
         print('-> saving reduced data to h5 file ... ')
         
-        self.events  = events
-    
+        self.events     = events
+
         evdic = self.events.__dict__        
         for key, value in  zip(evdic.keys(),evdic.values()) :
             self.gdet_data.create_dataset(key, data = value, compression=self.compressionHDFT, compression_opts=self.compressionHDFL)
             
-        if hitsMON is not None:
+        if eventsMON is not None:
             
-            self.hitsMON = hitsMON
+            self.eventsMON  = eventsMON
             
-            mondic = self.hitsMON.__dict__        
+            mondic = self.eventsMON.__dict__        
             for key, value in  zip(mondic.keys(),mondic.values()) :
                 self.gmon_data.create_dataset(key, data = value, compression=self.compressionHDFT, compression_opts=self.compressionHDFL)
        
@@ -197,12 +197,13 @@ class saveReducedDataToHDF():
 class readReducedDataFromHDF():
     def __init__(self, pathAndFileName):
         
+        
         self.parameters = para.parameters()
         self.parameters.init_empty()
         
-        self.events = clu.events()
+        self.events    = clu.events()
         
-        self.hitsMON = maps.hits()
+        self.eventsMON = clu.events()
     
         self.pathAndFileName = pathAndFileName
         
@@ -214,9 +215,9 @@ class readReducedDataFromHDF():
               print(' \033[1;31m---> File: '+self.fileName+' DOES NOT EXIST \033[1;37m')
               print(' ---> in folder: '+self.filePath)
               # print('  ---> in folder: '+self.filePath+' -> ... it will be skipped!')
-               # print(' ---> Exiting ... \n')
+              print(' ---> Exiting ... \n')
                # print('------------------------------------------------------------- \n')
-               # sys.exit()
+              sys.exit()
         else:
            
             try:
@@ -267,25 +268,24 @@ class readReducedDataFromHDF():
                                
                             self.events.__dict__[keyd] = subGr[keyd][()]
                             
-                    if key_gr == 'monitor' and key_subGr == 'hits':   
+                    if key_gr == 'monitor' and key_subGr == 'events':   
                         for keyd in subGr.keys(): 
                             self.dprint('4-\t\t\t\t\t',keyd)
                                
-                            # here add save into mon hits or events
-                            self.hitsMON.__dict__[keyd] = subGr[keyd][()]
-                            # print('save mon events still to be implemented')
-                            
-                    if key_gr == 'parameters':   
+                            self.eventsMON.__dict__[keyd] = subGr[keyd][()]
                         
-                        for keyd in subGr.keys(): 
-                            self.dprint('4-\t\t\t\t\t',keyd)
+                    # NOTE paramenters doe snot work dict , for now skipped will be added at a later devel 
+                    # if key_gr == 'parameters':   
                         
-                            self.parameters.__dict__[key_subGr].__dict__[keyd] = subGr[keyd][()]
+                    #     for keyd in subGr.keys(): 
+                    #         self.dprint('4-\t\t\t\t\t',keyd)
+                        
+                    #         self.parameters.__dict__[key_subGr].__dict__[keyd] = subGr[keyd][()]
 
-                        for att, value in zip(subGr.attrs,subGr.attrs.values()):
-                            self.dprint('4-\t\t\t\t\t',(att+' -> '+value))  
+                    #     for att, value in zip(subGr.attrs,subGr.attrs.values()):
+                    #         self.dprint('4-\t\t\t\t\t',(att+' -> '+value))  
                             
-                            self.parameters.__dict__[key_subGr].__dict__[att] = value
+                    #         self.parameters.__dict__[key_subGr].__dict__[att] = value
 
     
         self.__del__()

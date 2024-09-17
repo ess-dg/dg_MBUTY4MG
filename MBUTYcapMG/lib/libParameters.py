@@ -10,7 +10,7 @@ import numpy as np
 # import os
 import sys
 import time
-# from lib import libEventsSoftThresholds as thre
+from lib import libEventsSoftThresholds as thre
 # from lib import libMapping as maps
 
 # import libEventsSoftThresholds as thre
@@ -228,18 +228,19 @@ class plotting():
           self.bareReadoutsCalculation = False
           
       def calculateDerivedParam(self):
+           
+          if self.config is not None:
+               if self.positionReconstruction == 'W.max-S.max': # w x s max max
+                     self.posWbins = int(self.config.DETparameters.numOfWires)
+                     self.posSbins = int(self.config.DETparameters.numOfStrips)
+               elif self.positionReconstruction == 'W.cog-S.cog': # w x s CoG CoG
+                     self.posWbins = int(self.config.DETparameters.numOfWires*2)
+                     self.posSbins = int(self.config.DETparameters.numOfStrips*2) 
+               elif self.positionReconstruction == 'W.max-S.cog': # w x s max CoG
+                     self.posWbins = int(self.config.DETparameters.numOfWires)
+                     self.posSbins = int(self.config.DETparameters.numOfStrips*2)
              
-           if self.positionReconstruction == 'W.max-S.max': # w x s max max
-                 self.posWbins = int(self.config.DETparameters.numOfWires)
-                 self.posSbins = int(self.config.DETparameters.numOfStrips)
-           elif self.positionReconstruction == 'W.cog-S.cog': # w x s CoG CoG
-                 self.posWbins = int(self.config.DETparameters.numOfWires*2)
-                 self.posSbins = int(self.config.DETparameters.numOfStrips*2) 
-           elif self.positionReconstruction == 'W.max-S.cog': # w x s max CoG
-                 self.posWbins = int(self.config.DETparameters.numOfWires)
-                 self.posSbins = int(self.config.DETparameters.numOfStrips*2)
-             
-           self.ToFbins  = round(self.ToFrange/self.ToFbinning) 
+          self.ToFbins  = round(self.ToFrange/self.ToFbinning) 
           
           
 class wavelength():          

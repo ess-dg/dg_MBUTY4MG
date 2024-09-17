@@ -54,7 +54,7 @@ class hits():
         self.mult1     = readouts.mult1
         
         self.Durations = readouts.Durations
-        self.Duration  = np.sum(readouts.Durations)
+        self.Duration  = np.ones((1), dtype = 'int64')*(np.sum(readouts.Durations))
         
         leng = len(readouts.Channel)
         
@@ -718,7 +718,7 @@ class mapMonitor():
             self.hits.PrevPT    = self.readouts.PrevPT[selection]
             self.hits.PulseT    = self.readouts.PulseT[selection]
             self.hits.Durations = self.readouts.Durations
-            self.hits.Duration  = np.sum(self.readouts.Durations)
+            self.hits.Duration  = np.ones((1), dtype = 'int64')*(np.sum(self.readouts.Durations))
             self.flagMONfound = True
         
         else:

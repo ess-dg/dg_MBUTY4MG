@@ -609,13 +609,14 @@ if parameters.plotting.bareReadoutsCalculation is False:
       
     if parameters.fileManagement.saveReducedFileONOFF is True: 
         
-        fileNameSave = 'temp'
-    
-        fileNameSave  = fileDialogue.fileName[0]+'_reduced'
+        fileNameSave  = os.path.splitext(fileDialogue.fileName[0])[0]+'_reduced'
         
         sav = saveH5.saveReducedDataToHDF(parameters,parameters.fileManagement.saveReducedPath,fileNameSave)
-        # sav.save(eventsBTh)
-        sav.save(events)
+        
+        if (parameters.MONitor.MONOnOff is True) and (MON.flagMONfound is True):
+            sav.save(events,eventsMON)
+        else:
+            sav.save(events)
 
 ###############################################################################
 ###############################################################################
