@@ -10,7 +10,7 @@ import numpy as np
 
 
 
-table = np.zeros((128,7))
+table = np.zeros((128,8))
 
 table[0:64,0] = np.arange(0,64)
 
@@ -35,3 +35,10 @@ table[:,5] = np.floor_divide(table[:,2],numWiresRow)
 
 
 table[:,6] = table[:,4] + table[:,5]*numWiresRow
+
+
+is_even = np.mod(table[:,6] , 2 ) == 0
+
+table[is_even,7] = table[is_even,6] + 1
+
+table[~is_even,7] = table[~is_even,6] - 1

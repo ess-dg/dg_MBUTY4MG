@@ -452,6 +452,7 @@ class mapDetector():
         #########################################
         # MAPPING CHANNELS HERE : 
         
+        ########################################## 
         # WIRES
         selectionWires  =  np.logical_and(selectionCol , HyWLoc)
         
@@ -461,7 +462,14 @@ class mapDetector():
         
         tempW_3 = np.floor_divide( tempW_1 , self.config.DETparameters.wiresPerRow )
         
-        tempW   = tempW_2 + tempW_3*self.config.DETparameters.wiresPerRow
+        tempW_4 = tempW_2 + tempW_3*self.config.DETparameters.wiresPerRow
+        
+        is_even = np.mod(tempW_4 , 2 ) == 0
+        
+        tempW  = np.copy(tempW_4)
+        
+        tempW[is_even]  = tempW_4[is_even]  + 1
+        tempW[~is_even] = tempW_4[~is_even] - 1
 
         # tempW    = (self.readouts.Channel[selectionWires] + 64*self.readouts.ASIC[selectionWires]) 
         # after mapping wires are 0 and strips 1 
@@ -480,12 +488,21 @@ class mapDetector():
         self.hits.WiresStrips[selectionWires] = tempW
         self.hits.WorS[selectionWires]        = temp1
         
-        #######
+        ############################################################### 
         # GRIDS
 
         selectionStrips = np.logical_and(selectionCol , HySLoc)
         
-        tempS = self.readouts.Channel[selectionStrips] + 64*self.readouts.ASIC[selectionStrips]
+        tempS_1 = self.readouts.Channel[selectionStrips] + 64*self.readouts.ASIC[selectionStrips]
+        
+        is_evenS = np.mod(tempS_1 , 2 ) == 0
+        
+        tempS  = np.copy(tempS_1)
+        
+        tempS[is_even]  = tempS_1[is_even]  + 1
+        tempS[~is_even] = tempS_1[~is_even] - 1
+        
+        
         # after mapping wires are 0 and strips 1 
         self.hits.WorS[selectionStrips] = 1 
         temp2 = self.hits.WorS[selectionStrips] 
@@ -500,7 +517,8 @@ class mapDetector():
 
         self.hits.WiresStrips[selectionStrips] = tempS
         self.hits.WorS[selectionStrips]        = temp2
-             
+        
+        ########################################## 
         
         return flag    
             

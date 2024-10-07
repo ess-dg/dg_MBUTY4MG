@@ -179,7 +179,7 @@ parameters.fileManagement.pathToTshark = '/Applications/Wireshark.app/Contents/M
 ### save a hdf file with clusters (reduced file)
 
 ### ON/OFF
-parameters.fileManagement.saveReducedFileONOFF = False   
+parameters.fileManagement.saveReducedFileONOFF = True   
 parameters.fileManagement.saveReducedPath = '/Users/francescopiscitelli/Desktop/reducedFile/'
 
 parameters.fileManagement.reducedNameMainFolder  = 'entry1'
