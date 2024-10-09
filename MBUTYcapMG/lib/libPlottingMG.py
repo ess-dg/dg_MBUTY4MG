@@ -472,6 +472,10 @@ class plottingEvents():
                     ax22[0][0].set_ylabel('Grid ch.')
                     fig2D.suptitle('DET image')
                     
+                    # add red lines to plot IMG
+                    for k in np.arange(0,120,20):
+                        ax22[0][0].plot([k,k],[0,11],'r',linewidth=1)
+                    
                     
                 # elif orientation == 'horizontal':   
                            

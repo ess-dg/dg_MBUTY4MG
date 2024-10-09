@@ -154,7 +154,7 @@ parameters.fileManagement.fileName = ['MGdata.pcapng']
 ### entire  folder  opend  and analized and cumulated  all togheter 
 ### sequence opens all filens in     parameters.fileManagement.fileSerials and with fileName
 parameters.fileManagement.openMode = 'window'
-parameters.fileManagement.openMode = 'fileName'
+# parameters.fileManagement.openMode = 'fileName'
 # parameters.fileManagement.openMode = 'latest'
 # parameters.fileManagement.openMode = 'secondLast'
 # parameters.fileManagement.openMode = 'wholeFolder'
@@ -179,7 +179,7 @@ parameters.fileManagement.pathToTshark = '/Applications/Wireshark.app/Contents/M
 ### save a hdf file with clusters (reduced file)
 
 ### ON/OFF
-parameters.fileManagement.saveReducedFileONOFF = True   
+parameters.fileManagement.saveReducedFileONOFF = False   
 parameters.fileManagement.saveReducedPath = '/Users/francescopiscitelli/Desktop/reducedFile/'
 
 parameters.fileManagement.reducedNameMainFolder  = 'entry1'
