@@ -84,10 +84,10 @@ parameters.loadConfigAndSetParameters(config)
 ### can only be only one of these 5 options: off, pcap-sync, pcap-local, pcap-local-overwrite or kafka
 
 # parameters.acqMode = 'pcap-sync'
-# parameters.acqMode = 'pcap-local'
+parameters.acqMode = 'pcap-local'
 # parameters.acqMode = 'pcap-local-overwrite'
 # parameters.acqMode = 'kafka'
-parameters.acqMode = 'off'
+# parameters.acqMode = 'off'
 
 ###  then check parameters.fileManagement.openMode = 'window' for the open mode ...
 ###############################################################################
@@ -100,12 +100,15 @@ parameters.acqMode = 'off'
 parameters.dumpSettings.interface     = 'enp5s0'
 
 parameters.dumpSettings.typeOfCapture = 'packets'
-parameters.dumpSettings.quantity      =  100      #packets
+parameters.dumpSettings.quantity      =  1      #packets
 
 # parameters.dumpSettings.typeOfCapture = 'duration'
 # parameters.dumpSettings.quantity      = 1   #seconds
 
 parameters.fileManagement.fileNameSave = 'test'
+
+# NOTE
+# for acqMode =  pcap-local saves files in parameters.fileManagement.filePath 
 
 # relevant for acqMode =  kafka , num of packets to dump is in dumpSettings 
 parameters.kafkaSettings.broker       = '127.0.0.1:9092'
@@ -119,6 +122,7 @@ parameters.kafkaSettings.numOfPackets =  100      #packets
 
 # parameters.fileManagement.sourcePath = 'essdaq@172.30.244.50:~/pcaps/'
 parameters.fileManagement.sourcePath = 'mg@172.18.40.245:/home/mg/data/VMM-Utgard-test-2024/'
+parameters.fileManagement.sourcePath = 'mg@172.18.40.245:/home/mg/dg_MBUTY4MG/MBUTYcapMG/data/'
 parameters.fileManagement.destPath   = '/Users/francescopiscitelli/Desktop/MGdata/' 
 
 ###############
@@ -127,7 +131,7 @@ parameters.fileManagement.filePath = parameters.fileManagement.destPath
 
 # relevant for acqMode =  off, pcap-sync and pcap-local
 
-parameters.fileManagement.filePath = currentPath+'data/'
+# parameters.fileManagement.filePath = currentPath+'data/'
 # parameters.fileManagement.filePath ='/home/mg/data/VMM-Utgard-test-2024/'
 
 # parameters.fileManagement.filePath = '/Users/francescopiscitelli/Documents/DOC/DATA/202311_PSI_AMOR_MBnewAMOR_VMM_neutrons/SamplesAndMasks/'
@@ -374,12 +378,12 @@ if parameters.acqMode  == 'pcap-local-overwrite'  or parameters.acqMode  == 'pca
     
     rec = ta.dumpToPcapngUtil(parameters.fileManagement.pathToTshark, parameters.dumpSettings.interface, \
     parameters.dumpSettings.destTestData, parameters.dumpSettings.fileName)
-
+        
     # sta = ta.acquisitionStatus(parameters.dumpSettings.destTestData)  
     # sta.set_RecStatus()
     
-    status = rec.dump(parameters.dumpSettings.typeOfCapture,parameters.dumpSettings.quantity,parameters.dumpSettings.numOfFiles,\
-    parameters.dumpSettings.delay,parameters.dumpSettings.fileNameOnly)
+    status = rec.dump(parameters.dumpSettings.typeOfCapture, parameters.dumpSettings.quantity, parameters.dumpSettings.numOfFiles,\
+    parameters.dumpSettings.delay, parameters.dumpSettings.fileNameOnly)
     # if status == 0: 
     #      sta.set_FinStatus()
     # else:
