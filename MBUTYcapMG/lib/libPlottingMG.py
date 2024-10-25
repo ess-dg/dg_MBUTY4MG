@@ -446,6 +446,10 @@ class plottingEvents():
                 
                 h2D, _, hToF = hh.histog().histXYZ(self.allAxis.axWires.axis, self.events.positionW[self.selc], self.allAxis.axStrips.axis, self.events.positionS[self.selc], self.allAxis.axToF.axis, self.events.ToF[self.selc]/1e9)
         
+        
+                # h2D[0,0]    = 8
+                # h2D[10,237] = 8
+                    
                 hProjAll = hh.histog().hist1D(self.allAxis.axWires.axis, self.events.positionW)
                 
                 hProj2D  = np.sum(h2D,axis=0)
@@ -454,11 +458,9 @@ class plottingEvents():
                 
                     fig2D, ax22 = plt.subplots(num=101,figsize=(9,9), nrows=2, ncols=2)    
                     # #fig.add_axes([0,0,1,1]) #if you want to position absolute coordinate
-                    pos1  = ax22[0][0].imshow(h2D,aspect='auto',norm=normColors,interpolation='none',extent=[self.allAxis.axWires.start,self.allAxis.axWires.stop,self.allAxis.axStrips.stop,self.allAxis.axStrips.start], origin='upper',cmap='viridis')
+                    pos1  = ax22[0][0].imshow(h2D,aspect='auto',norm=normColors,interpolation='none', extent=[self.allAxis.axWires.start-0.5,self.allAxis.axWires.stop+0.5,self.allAxis.axStrips.start-0.5,self.allAxis.axStrips.stop+0.5], origin='lower',cmap='viridis')
                     
-                    for k in range(1,self.parameters.config.DETparameters.numOfCassettes):
-                        ax22[0][0].plot([k*self.parameters.config.DETparameters.numOfWires, k*self.parameters.config.DETparameters.numOfWires], [0, self.parameters.config.DETparameters.numOfStrips-1], color='r', linewidth = 1)
-                    
+                   
                     #  temporary fix because LogNorm crashes tihe imShow when Log 
                     try:
                         fig2D.colorbar(pos1, ax=ax22[0][0], orientation="horizontal",fraction=0.07,anchor=(1.0,0.0))
@@ -472,9 +474,14 @@ class plottingEvents():
                     ax22[0][0].set_ylabel('Grid ch.')
                     fig2D.suptitle('DET image')
                     
+                    # add magenta lines to plot IMG
+                    for k in np.arange(0,self.parameters.config.DETparameters.numOfCassettes*self.parameters.config.DETparameters.numOfWires,self.parameters.config.DETparameters.wiresPerRow):
+                        ax22[0][0].plot([k-0.5,k-0.5],[-0.5,11.5],'r',linewidth=1)
+                        
                     # add red lines to plot IMG
-                    for k in np.arange(0,120,20):
-                        ax22[0][0].plot([k,k],[0,11],'r',linewidth=1)
+                    for k in range(1,self.parameters.config.DETparameters.numOfCassettes):
+                        ax22[0][0].plot([k*self.parameters.config.DETparameters.numOfWires-0.5, k*self.parameters.config.DETparameters.numOfWires-0.5], [-0.5, self.parameters.config.DETparameters.numOfStrips-1+0.5], color='m', linewidth = 1)
+                        
                     
                     
                 # elif orientation == 'horizontal':   
@@ -529,8 +536,14 @@ class plottingEvents():
                 
                 h2DprojWin, _, _ = hh.histog().histXYZ(rowsAxis, wireChforX, self.allAxis.axStrips.axis, self.events.positionS[self.selc], self.allAxis.axToF.axis, self.events.ToF[self.selc]/1e9)
         
-        
-                pos10  = ax22[0][1].imshow(h2DprojWin,aspect='auto',norm=normColors,interpolation='none',extent=[0,stop,self.allAxis.axStrips.stop,self.allAxis.axStrips.start], origin='upper',cmap='viridis')
+                # print(stop)
+                
+                # h2DprojWin[0,0] = 8
+                
+                # h2DprojWin[10,10] = 8
+                
+                
+                pos10  = ax22[0][1].imshow(h2DprojWin,aspect='auto',norm=normColors,interpolation='none',extent=[-0.5,stop+0.5,self.allAxis.axStrips.start-0.5,self.allAxis.axStrips.stop+0.5], origin='lower',cmap='viridis')
                 
                 
                 try:
@@ -543,7 +556,7 @@ class plottingEvents():
                 
                 
                 for k in range(1,self.parameters.config.DETparameters.numOfCassettes):
-                    ax22[0][1].plot([k*rowsPerCol, k*rowsPerCol], [0, self.parameters.config.DETparameters.numOfStrips-1], color='r', linewidth = 1)
+                    ax22[0][1].plot([k*rowsPerCol-0.5, k*rowsPerCol-0.5], [-0.5, self.parameters.config.DETparameters.numOfStrips-1+0.5], color='m', linewidth = 1)
                     
                     
                     

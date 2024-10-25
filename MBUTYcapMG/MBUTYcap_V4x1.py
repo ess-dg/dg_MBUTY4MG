@@ -65,7 +65,7 @@ parameters  = para.parameters(currentPath)
 configFilePath  = currentPath+'config/'
 
 # configFileName  = "MG.json"
-configFileName  = "MGEMMA.json"
+configFileName  = "MGEMMAboth.json"
 
 ###############################################################################
 ###############################################################################
@@ -84,10 +84,10 @@ parameters.loadConfigAndSetParameters(config)
 ### can only be only one of these 5 options: off, pcap-sync, pcap-local, pcap-local-overwrite or kafka
 
 # parameters.acqMode = 'pcap-sync'
-parameters.acqMode = 'pcap-local'
+# parameters.acqMode = 'pcap-local'
 # parameters.acqMode = 'pcap-local-overwrite'
 # parameters.acqMode = 'kafka'
-# parameters.acqMode = 'off'
+parameters.acqMode = 'off'
 
 ###  then check parameters.fileManagement.openMode = 'window' for the open mode ...
 ###############################################################################
@@ -100,7 +100,7 @@ parameters.acqMode = 'pcap-local'
 parameters.dumpSettings.interface     = 'enp5s0'
 
 parameters.dumpSettings.typeOfCapture = 'packets'
-parameters.dumpSettings.quantity      =  1      #packets
+parameters.dumpSettings.quantity      =  100      #packets
 
 # parameters.dumpSettings.typeOfCapture = 'duration'
 # parameters.dumpSettings.quantity      = 1   #seconds
@@ -122,7 +122,7 @@ parameters.kafkaSettings.numOfPackets =  100      #packets
 
 # parameters.fileManagement.sourcePath = 'essdaq@172.30.244.50:~/pcaps/'
 parameters.fileManagement.sourcePath = 'mg@172.18.40.245:/home/mg/data/VMM-Utgard-test-2024/'
-parameters.fileManagement.sourcePath = 'mg@172.18.40.245:/home/mg/dg_MBUTY4MG/MBUTYcapMG/data/'
+# parameters.fileManagement.sourcePath = 'mg@172.18.40.245:/home/mg/dg_MBUTY4MG/MBUTYcapMG/data/'
 parameters.fileManagement.destPath   = '/Users/francescopiscitelli/Desktop/MGdata/' 
 
 ###############
@@ -148,10 +148,10 @@ parameters.fileManagement.fileName = ['MG_2col_1cluster.pcapng']
 
 parameters.fileManagement.fileName = ['MG_2col_2clusters.pcapng']
 
-parameters.fileManagement.fileName = ['MGdata.pcapng']
+parameters.fileManagement.fileName = ['20241024_144029_duration_s_120_HV1000V-MGEMMA2and1_00000.pcapng']
 
 
-# parameters.fileManagement.fileSerials = np.arange(18,28,1)
+parameters.fileManagement.fileSerials = np.arange(40,49,1)
 
 ### valid otions: 'window','fileName', 'latest', 'secondLast', 'wholeFolder', 'sequence' 
 ### window opens to selcet file, filename speficified  earlier, last or sencond last file crearted in folder, 

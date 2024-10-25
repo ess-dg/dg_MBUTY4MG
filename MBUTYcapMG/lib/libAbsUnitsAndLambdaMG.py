@@ -96,14 +96,16 @@ class calculateAbsUnits():
          # cassetteNum = np.floor_divide(self.events.positionW,self.parameters.config.DETparameters.numOfWires)
          
          # bring back global coordinates into local in each column
+         
+         tempPosW  = np.copy(self.events.positionW)
+           
          for k, cass in enumerate(self.parameters.config.DETparameters.cassInConfig):     
               index = k
-              selection = self.events.Cassette == cass 
+              indexes = np.argwhere(self.events.Cassette == cass)
               # self.events.positionW[selection] = self.events.positionW[selection] - index*self.parameters.config.DETparameters.numOfWires
-              
-              tempPosW  = self.events.positionW[selection] - index*self.parameters.config.DETparameters.numOfWires
+              tempPosW[indexes]  = self.events.positionW[indexes] - index*self.parameters.config.DETparameters.numOfWires
         ########################
-
+                 
          numOfWiresPerRow = self.parameters.config.DETparameters.wiresPerRow
          
          linearOffset  = self.parameters.config.DETparameters.linearOffset1stWires    #mm
@@ -123,9 +125,10 @@ class calculateAbsUnits():
              
          #     selectW = self.events.Cassette == cass
          #     self.events.positionWmm[selectW]  = np.round(  (wireChforX[selectW] * (self.parameters.config.DETparameters.wirePitchX)), decimals=2 )  #mm
-             
-         self.events.positionWmm  = np.round(  (wireChforX * (self.parameters.config.DETparameters.wirePitchX)), decimals=2 )  #mm
+            
          
+         self.events.positionWmm  = np.round(  (wireChforX * (self.parameters.config.DETparameters.wirePitchX)), decimals=2 )  #mm
+  
          #mm Y grids
          selectS = self.events.positionS >= 0
          self.events.positionSmm[selectS]  = np.round((self.events.positionS[selectS] * self.parameters.config.DETparameters.stripPitchY ), decimals = 2) #mm
@@ -179,7 +182,8 @@ class calculateAbsUnits():
           
           if removeInvalidToFs is True:
               
-              self.cleanInvalidToFs()
+               self.cleanInvalidToFs()
+              # pass
               
           else:
               
@@ -261,6 +265,7 @@ class calculateAbsUnits():
                 # print(np.shape(invalidTofs))
                 
                 if np.shape(self.events.Cassette)[0] != 0:
+
                     
                     self.events.Cassette     = self.events.Cassette[~invalidTofs] 
                     self.events.multS        = self.events.multS[~invalidTofs] 
