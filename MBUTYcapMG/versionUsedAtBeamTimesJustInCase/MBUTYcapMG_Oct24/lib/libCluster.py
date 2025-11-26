@@ -598,8 +598,6 @@ class clusterHits():
                         elif (ww >= 32 or ss >= 64):
                               self.rejCounter[3] = self.rejCounter[3]+1               #counter if cluster above possible limits          
                               print('\n cluster > 32 in either directions w or s -> probably rate too high \n')
-                              
-                              print('w ch: '+str(clusterq[:,6])+' - Gch: '+str((str(clusterq[:,7]))))
                              
                         else:
                             self.rejCounter[4] = self.rejCounter[4]+1               #any other case not taken into account previously

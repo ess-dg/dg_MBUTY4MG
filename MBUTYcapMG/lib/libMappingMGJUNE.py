@@ -454,22 +454,26 @@ class mapDetector():
         
         ########################################## 
         # WIRES
-        selectionWires  =  np.logical_and(selectionCol , HyWLoc)
+        selectionWires  =  np.logical_and(selectionCol, HyWLoc)
         
-        tempW_1 = (63 - self.readouts.Channel[selectionWires] + 64*(1-self.readouts.ASIC[selectionWires]))
+        # tempW_1 = (63 - self.readouts.Channel[selectionWires] + 64*(1-self.readouts.ASIC[selectionWires]))
         
-        tempW_2 = (self.config.DETparameters.wiresPerRow-1) - np.mod( tempW_1 , self.config.DETparameters.wiresPerRow )
+        # tempW_2 = (self.config.DETparameters.wiresPerRow-1) - np.mod( tempW_1 , self.config.DETparameters.wiresPerRow )
         
-        tempW_3 = np.floor_divide( tempW_1 , self.config.DETparameters.wiresPerRow )
+        # tempW_3 = np.floor_divide( tempW_1 , self.config.DETparameters.wiresPerRow )
         
-        tempW_4 = tempW_2 + tempW_3*self.config.DETparameters.wiresPerRow
+        # tempW_4 = tempW_2 + tempW_3*self.config.DETparameters.wiresPerRow
         
-        is_even = np.mod(tempW_4 , 2 ) == 0
+        # is_even = np.mod(tempW_4 , 2 ) == 0
         
-        tempW  = np.copy(tempW_4)
+        # tempW  = np.copy(tempW_4)
         
-        tempW[is_even]  = tempW_4[is_even]  + 1
-        tempW[~is_even] = tempW_4[~is_even] - 1
+        
+        
+        # tempW[is_even]  = tempW_4[is_even]  + 1
+        # tempW[~is_even] = tempW_4[~is_even] - 1
+        
+        tempW = self.readouts.Channel[selectionWires] + 64*self.readouts.ASIC[selectionWires]
 
         # tempW    = (self.readouts.Channel[selectionWires] + 64*self.readouts.ASIC[selectionWires]) 
         # after mapping wires are 0 and strips 1 
@@ -493,16 +497,18 @@ class mapDetector():
  
         selectionStrips = np.logical_and(selectionCol , HySLoc)
         
-        tempS_1 = self.readouts.Channel[selectionStrips] + 64*self.readouts.ASIC[selectionStrips]
+        # tempS_1 = self.readouts.Channel[selectionStrips] + 64*self.readouts.ASIC[selectionStrips]
         
-        tempS_2 = 11 - tempS_1
+        # tempS_2 = 11 - tempS_1
         
-        is_evenS = np.mod(tempS_2 , 2 ) == 0
+        # is_evenS = np.mod(tempS_2 , 2 ) == 0
         
-        tempS  = np.copy(tempS_2)
+        # tempS  = np.copy(tempS_2)
         
-        tempS[is_evenS]  = tempS_2[is_evenS]  + 1
-        tempS[~is_evenS] = tempS_2[~is_evenS] - 1
+        # tempS[is_evenS]  = tempS_2[is_evenS]  + 1
+        # tempS[~is_evenS] = tempS_2[~is_evenS] - 1
+        
+        tempS = self.readouts.Channel[selectionStrips] + 64*self.readouts.ASIC[selectionStrips]
         
         
         # after mapping wires are 0 and strips 1 

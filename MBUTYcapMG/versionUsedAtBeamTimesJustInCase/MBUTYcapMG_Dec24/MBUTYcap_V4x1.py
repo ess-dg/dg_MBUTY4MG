@@ -66,7 +66,7 @@ parameters  = para.parameters(currentPath)
 configFilePath  = currentPath+'config/'
 
 # configFileName  = "MG.json"
-configFileName  = "MGEMMAboth.json"
+configFileName  = "MGEMMA.json"
 
 ###############################################################################
 ###############################################################################
@@ -100,13 +100,13 @@ parameters.acqMode = 'pcap-local-overwrite'
 
 parameters.dumpSettings.interface     = 'enp5s0'
 
-# parameters.dumpSettings.typeOfCapture = 'packets'
-# parameters.dumpSettings.quantity      = 100     #packets
+parameters.dumpSettings.typeOfCapture = 'packets'
+parameters.dumpSettings.quantity      = 100     #packets
 
-parameters.dumpSettings.typeOfCapture = 'duration'
-parameters.dumpSettings.quantity      = 1   #seconds
+# parameters.dumpSettings.typeOfCapture = 'duration'
+# parameters.dumpSettings.quantity      = 120   #seconds
 
-# parameters.fileManagement.fileNameSave = 'testCables-after-lunch'
+parameters.fileManagement.fileNameSave = 'testCables-after-lunch'
 
 # NOTE
 # for acqMode =  pcap-local saves files in parameters.fileManagement.filePath 
@@ -114,7 +114,7 @@ parameters.dumpSettings.quantity      = 1   #seconds
 # relevant for acqMode =  kafka , num of packets to dump is in dumpSettings 
 parameters.kafkaSettings.broker       = '127.0.0.1:9092'
 parameters.kafkaSettings.topic        = 'freia_debug'
-parameters.kafkaSettings.numOfPackets =  100     #packets
+parameters.kafkaSettings.numOfPackets =  100      #packets
 
 ###############################################################################
 
@@ -133,7 +133,7 @@ parameters.fileManagement.filePath = parameters.fileManagement.destPath
 # relevant for acqMode =  off, pcap-sync and pcap-local
 
 # parameters.fileManagement.filePath = currentPath+'data/'
-# parameters.fileManagement.filePath ='/home/mg/data/utgard-cable-investigation-2025/'
+parameters.fileManagement.filePath ='/home/mg/data/utgard-cable-investigation-2025/'
 
 
 parameters.fileManagement.filePath ='/home/mg/data/'
@@ -162,7 +162,7 @@ parameters.fileManagement.fileSerials = np.arange(0,3,1)
 ### sequence opens all filens in     parameters.fileManagement.fileSerials and with fileName
 parameters.fileManagement.openMode = 'window'
 # parameters.fileManagement.openMode = 'fileName'
-# parameters.fileManagement.openMode = 'lates300t'
+# parameters.fileManagement.openMode = 'latest'
 # parameters.fileManagement.openMode = 'secondLast'
 # parameters.fileManagement.openMode = 'wholeFolder'
 # parameters.fileManagement.openMode = 'sequence'
@@ -272,7 +272,7 @@ parameters.MONitor.MONDistance  = 10000
 
 ###############
 # with True disables clustering and mapping for speed reasons, analisys stops at readouts 
-parameters.plotting.bareReadoutsCalculation = False
+parameters.plotting.bareReadoutsCalculation = True
 
 ###############     
 ### show stat during clustering, option  'globalStat'  stat for all cassettes together, 

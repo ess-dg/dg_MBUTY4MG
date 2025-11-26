@@ -58,8 +58,7 @@ para.checkPythonVersion()
 ### get current path ###
 currentPath = os.path.abspath(os.path.dirname(__file__))+'/'
 parameters  = para.parameters(currentPath)
-######
-########################################################################
+###############################################################################
 ###############################################################################
 ### read json and create parameters for plotting and analisys ###
 
@@ -84,9 +83,9 @@ parameters.loadConfigAndSetParameters(config)
 #################################
 ### can only be only one of these 5 options: off, pcap-sync, pcap-local, pcap-local-overwrite or kafka
 
-# parameters.acqMode = 'pcap-sync'
-#parameters.acqMode = 'pcap-local'
-parameters.acqMode = 'pcap-local-overwrite'
+parameters.acqMode = 'pcap-sync'
+# parameters.acqMode = 'pcap-local'
+# parameters.acqMode = 'pcap-local-overwrite'
 # parameters.acqMode = 'kafka'
 # parameters.acqMode = 'off'
 
@@ -100,13 +99,13 @@ parameters.acqMode = 'pcap-local-overwrite'
 
 parameters.dumpSettings.interface     = 'enp5s0'
 
-# parameters.dumpSettings.typeOfCapture = 'packets'
-# parameters.dumpSettings.quantity      = 100     #packets
+parameters.dumpSettings.typeOfCapture = 'packets'
+parameters.dumpSettings.quantity      =  100      #packets
 
-parameters.dumpSettings.typeOfCapture = 'duration'
-parameters.dumpSettings.quantity      = 1   #seconds
+# parameters.dumpSettings.typeOfCapture = 'duration'
+# parameters.dumpSettings.quantity      = 1   #seconds
 
-# parameters.fileManagement.fileNameSave = 'testCables-after-lunch'
+parameters.fileManagement.fileNameSave = 'test'
 
 # NOTE
 # for acqMode =  pcap-local saves files in parameters.fileManagement.filePath 
@@ -114,7 +113,7 @@ parameters.dumpSettings.quantity      = 1   #seconds
 # relevant for acqMode =  kafka , num of packets to dump is in dumpSettings 
 parameters.kafkaSettings.broker       = '127.0.0.1:9092'
 parameters.kafkaSettings.topic        = 'freia_debug'
-parameters.kafkaSettings.numOfPackets =  100     #packets
+parameters.kafkaSettings.numOfPackets =  100      #packets
 
 ###############################################################################
 
@@ -133,10 +132,7 @@ parameters.fileManagement.filePath = parameters.fileManagement.destPath
 # relevant for acqMode =  off, pcap-sync and pcap-local
 
 # parameters.fileManagement.filePath = currentPath+'data/'
-# parameters.fileManagement.filePath ='/home/mg/data/utgard-cable-investigation-2025/'
-
-
-parameters.fileManagement.filePath ='/home/mg/data/'
+# parameters.fileManagement.filePath ='/home/mg/data/VMM-Utgard-test-2024/'
 
 # parameters.fileManagement.filePath = '/Users/francescopiscitelli/Documents/DOC/DATA/202311_PSI_AMOR_MBnewAMOR_VMM_neutrons/SamplesAndMasks/'
 
@@ -147,14 +143,17 @@ parameters.fileManagement.filePath ='/home/mg/data/'
 ### folder and file to open (file can be a list of files)
 
 parameters.fileManagement.fileName = ['freiatest.pcapng']
+
 parameters.fileManagement.fileName = ['MG_2col_1cluster.pcapng']
 
 parameters.fileManagement.fileName = ['MG_2col_2clusters.pcapng']
 
-parameters.fileManagement.fileName = ['20241030_110902_duration_s_600_firstLightEMMAboth_00001.pcapng']
+parameters.fileManagement.fileName = ['20241024_144029_duration_s_120_HV1000V-MGEMMA2and1_00000.pcapng']
+
+parameters.fileManagement.fileName = ['20241024_151405_duration_s_900_MGemma1and2-HV1000-overnight_00000.pcapng']
 
 
-parameters.fileManagement.fileSerials = np.arange(0,3,1)
+parameters.fileManagement.fileSerials = np.arange(50,59,1)
 
 ### valid otions: 'window','fileName', 'latest', 'secondLast', 'wholeFolder', 'sequence' 
 ### window opens to selcet file, filename speficified  earlier, last or sencond last file crearted in folder, 
@@ -162,10 +161,10 @@ parameters.fileManagement.fileSerials = np.arange(0,3,1)
 ### sequence opens all filens in     parameters.fileManagement.fileSerials and with fileName
 parameters.fileManagement.openMode = 'window'
 # parameters.fileManagement.openMode = 'fileName'
-# parameters.fileManagement.openMode = 'lates300t'
+# parameters.fileManagement.openMode = 'latest'
 # parameters.fileManagement.openMode = 'secondLast'
 # parameters.fileManagement.openMode = 'wholeFolder'
-# parameters.fileManagement.openMode = 'sequence'
+parameters.fileManagement.openMode = 'sequence'
 
 ###############
 ### path to calibration file
@@ -209,7 +208,7 @@ parameters.VMMsettings.timeResolutionType = 'fine'
 
 ### timeWindow to search for clusters, timeWindow is max time between events in candidate cluster 
 ### and timeWindow/2 is the recursive time distance between adjacent hits
-parameters.dataReduction.timeWindow = 0.5e-6
+parameters.dataReduction.timeWindow = 2e-6
 
 ### 'OFF', 'fromFile' = File With Threhsolds Loaded, 'userDefined' = User defines the Thresholds in an array softTh
 parameters.dataReduction.softThresholdType = 'off' 
@@ -229,7 +228,7 @@ if parameters.dataReduction.softThresholdType == 'userDefined':
 parameters.wavelength.distance = 8000
 
 ##ON/OFF
-parameters.wavelength.calculateLambda = False
+parameters.wavelength.calculateLambda = True
 
 ### ON/OFF plot X vs Lambda 2D plot
 parameters.wavelength.plotXLambda     = False
@@ -284,7 +283,7 @@ parameters.plotting.showStat = 'globalStat'
 ### raw plots
 parameters.plotting.plotRawReadouts         = True
 parameters.plotting.plotReadoutsTimeStamps  = False
-parameters.plotting.plotRawHits             = False
+parameters.plotting.plotRawHits             = True
 parameters.plotting.plotHitsTimeStamps      = False
 parameters.plotting.plotHitsTimeStampsVSChannels = False
 parameters.plotting.plotChopperResets       = False
@@ -298,7 +297,7 @@ parameters.plotting.instRateBin     = 100e-6  # s
 ### ToF plot integrated over individual cassette, one per cassette
 parameters.plotting.plotToFDistr    = False
 
-parameters.plotting.ToFrange        = 0.025    # s
+parameters.plotting.ToFrange        = 0.15    # s
 parameters.plotting.ToFbinning      = 100e-6 # s
      
 parameters.plotting.plotMultiplicity = False 

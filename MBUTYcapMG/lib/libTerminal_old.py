@@ -41,28 +41,6 @@ class findPathApp():
 
 ############################################################################### 
 
-class checkPathCreate():
-    
-    def __init__(self,path):
-        
-        exist = os.path.exists(path)
-        
-        if exist is False:
-            
-            print('\n --> \033[1;33mWARNING: Folder: '+path+'does not exist.\033[1;37m')
-
-            inp = input('     press (y) to create or (n or enter) to quit ')
-            
-            if inp == 'y':
-                os.mkdir(path)
-                print(' --> folder created.')
-            else:    
-                print(' --> exiting.')
-                sys.exit()
-            
-
-############################################################################### 
-
 class transferDataUtil():
              
     def syncData(self,sourcePath,destPath,verbose=True):
@@ -201,9 +179,6 @@ class dumpToPcapngUtil():
         self.interface    = interface
         self.destPath     = destPath
         self.fileName     = fileName
-        
-        # checks if path exist if not asks for creation
-        checkPathCreate(self.destPath)
  
     def dump(self,typeOfCapture='packets',extraArgs=100,numOfFiles=1,delay=0,fileNameOnly=False):
         
